@@ -365,13 +365,15 @@
             // Create vCard data
             const vCard = `BEGIN:VCARD
 VERSION:3.0
+X-ABShowAs:PERSON
+N:Cullell;Enric;;;
 FN:Enric Cullell
 ORG:USDM Life Sciences
 TITLE:Validation Lead
-TEL:+18052044163
-EMAIL:ecullell@usdm.com
-URL:https://usdm.com/
-URL:https://www.linkedin.com/in/enric-cullell
+TEL;TYPE=CELL,VOICE:+1-805-204-4163
+EMAIL;TYPE=INTERNET,PREF:ecullell@usdm.com
+URL;TYPE=WORK:https://usdm.com/
+URL;TYPE=HOME:https://www.linkedin.com/in/enric-cullell
 NOTE:GxP Compliance, Digital Quality, and Risk Management expert for life sciences companies. Specializes in pharmaceutical, biotech, and medical device validation.
 END:VCARD`;
 
