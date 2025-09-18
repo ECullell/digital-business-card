@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator - Enric Cullell Business Card</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode/1.5.3/qrcode.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3a5f 0%, #4a90a4 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            width: 100%;
+            padding: 40px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #1e3a5f;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            color: #4a90a4;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+
+        .url-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 16px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .url-input:focus {
+            border-color: #4a90a4;
+            outline: none;
+        }
+
+        .generate-btn {
+            background: linear-gradient(135deg, #1e3a5f, #4a90a4);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 30px;
+            transition: transform 0.3s ease;
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .qr-container {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 15px;
+            border: 2px solid #e2e8f0;
+        }
+
+        #qrcode {
+            display: flex;
+            justify-content: center;
+        }
+
+        .download-options {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .download-btn {
+            padding: 12px 24px;
+            border: 2px solid #1e3a5f;
+            background: white;
+            color: #1e3a5f;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .download-btn:hover {
+            background: #1e3a5f;
+            color: white;
+        }
+
+        .instructions {
+            background: #f0f7ff;
+            border: 1px solid #4a90a4;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 30px;
+            text-align: left;
+        }
+
+        .instructions h3 {
+            color: #1e3a5f;
+            margin-bottom: 15px;
+        }
+
+        .instructions ul {
+            color: #2c5282;
+            padding-left: 20px;
+        }
+
+        .instructions li {
+            margin-bottom: 8px;
+        }
+
+        .size-options {
+            margin: 20px 0;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .size-btn {
+            padding: 8px 16px;
+            border: 2px solid #e2e8f0;
+            background: white;
+            color: #5a6c7d;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .size-btn.active {
+            border-color: #4a90a4;
+            background: #4a90a4;
+            color: white;
+        }
+
+        .preview-text {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #5a6c7d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>QR Code Generator</h1>
+        <p class="subtitle">Generate QR code for your digital business card</p>
+
+        <input 
+            type="url" 
+            class="url-input" 
+            id="urlInput" 
+            placeholder="Enter your GitHub Pages URL"
+            value="https://ecullell.github.io/digital-business-card/"
+        >
+
+        <div class="size-options">
+            <button class="size-btn" data-size="200">Small (200px)</button>
+            <button class="size-btn active" data-size="300">Medium (300px)</button>
+            <button class="size-btn" data-size="400">Large (400px)</button>
+            <button class="size-btn" data-size="500">Extra Large (500px)</button>
+        </div>
+
+        <button class="generate-btn" onclick="generateQR()">Generate QR Code</button>
+
+        <div class="qr-container" id="qrContainer" style="display: none;">
+            <div id="qrcode"></div>
+            <p class="preview-text">Scan this QR code to access your digital business card</p>
+            
+            <div class="download-options">
+                <button class="download-btn" onclick="downloadQR('png')">Download PNG</button>
+                <button class="download-btn" onclick="downloadQR('svg')">Download SVG</button>
+            </div>
+        </div>
+
+        <div class="instructions">
+            <h3>📱 How to Use Your QR Code:</h3>
+            <ul>
+                <li><strong>Business Cards:</strong> Print on the back of traditional cards</li>
+                <li><strong>Email Signatures:</strong> Include in your professional emails</li>
+                <li><strong>LinkedIn:</strong> Add to your profile header or posts</li>
+                <li><strong>Presentations:</strong> Include on your last slide</li>
+                <li><strong>Networking Events:</strong> Display on name tags or badges</li>
+                <li><strong>Marketing Materials:</strong> Add to brochures, flyers, or banners</li>
+            </ul>
+            
+            <h3 style="margin-top: 20px;">🖨️ Printing Tips:</h3>
+            <ul>
+                <li>Minimum size: 2cm x 2cm (0.8" x 0.8")</li>
+                <li>Use high contrast (black on white works best)</li>
+                <li>Test scan before mass printing</li>
+                <li>Leave white space around the QR code</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        let currentQR = null;
+        let currentSize = 300;
+
+        // Initialize with medium size selected
+        document.addEventListener('DOMContentLoaded', function() {
+            generateQR();
+        });
+
+        // Handle size selection
+        document.querySelectorAll('.size-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentSize = parseInt(this.dataset.size);
+                if (currentQR) {
+                    generateQR();
+                }
+            });
+        });
+
+        function generateQR() {
+            const url = document.getElementById('urlInput').value;
+            
+            if (!url) {
+                alert('Please enter a URL');
+                return;
+            }
+
+            // Clear previous QR code
+            document.getElementById('qrcode').innerHTML = '';
+
+            // Generate new QR code
+            currentQR = QRCode.toCanvas(document.getElementById('qrcode'), url, {
+                width: currentSize,
+                height: currentSize,
+                margin: 2,
+                color: {
+                    dark: '#1e3a5f',  // USDM navy blue
+                    light: '#ffffff'
+                },
+                errorCorrectionLevel: 'M'
+            }, function (error) {
+                if (error) {
+                    console.error(error);
+                    alert('Error generating QR code');
+                } else {
+                    document.getElementById('qrContainer').style.display = 'block';
+                    console.log('QR code generated successfully');
+                }
+            });
+        }
+
+        function downloadQR(format) {
+            const canvas = document.querySelector('#qrcode canvas');
+            if (!canvas) {
+                alert('Please generate a QR code first');
+                return;
+            }
+
+            if (format === 'png') {
+                const link = document.createElement('a');
+                link.download = 'enric-cullell-business-card-qr.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            } else if (format === 'svg') {
+                // For SVG, we'll recreate using QRCode.toString
+                const url = document.getElementById('urlInput').value;
+                QRCode.toString(url, {
+                    type: 'svg',
+                    width: currentSize,
+                    margin: 2,
+                    color: {
+                        dark: '#1e3a5f',
+                        light: '#ffffff'
+                    }
+                }, function (err, string) {
+                    if (err) throw err;
+                    
+                    const blob = new Blob([string], { type: 'image/svg+xml' });
+                    const link = document.createElement('a');
+                    link.download = 'enric-cullell-business-card-qr.svg';
+                    link.href = URL.createObjectURL(blob);
+                    link.click();
+                });
+            }
+        }
+
+        // Auto-generate when URL changes
+        document.getElementById('urlInput').addEventListener('input', function() {
+            if (this.value) {
+                setTimeout(generateQR, 500); // Small delay for better UX
+            }
+        });
+    </script>
+</body>
+</html>
