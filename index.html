@@ -321,6 +321,19 @@
           margin-top:8px; 
           color:#5a6c7d; 
         }
+        /* Toggle form inside the card */
+        #contact-form { 
+          display: none; 
+        }
+        #contact-form.show { 
+          display: block; 
+          animation: fadeIn 0.25s ease-in;
+        }
+        
+        /* make the submit button full-width on small screens */
+        @media (max-width: 480px) {
+          #contact-form .btn { width: 100%; }
+        }
     </style>
 </head>
 <body>
@@ -400,6 +413,12 @@
 
         <!-- Action Buttons -->
         <div class="actions">
+            <a href="#" class="btn btn-primary" id="showForm">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M12,2A10,10 0 1,0 22,12A10,10 0 0,0 12,2M11,17L6,12L7.41,10.59L11,14.17L16.59,8.58L18,10L11,17Z"/>
+                </svg>
+                Contact Me
+            </a>
             <a href="#" class="btn btn-primary" id="addContact">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z"/>
@@ -415,6 +434,7 @@
         </div>
 
         <div class="usdm-accent">USDM Life Sciences</div>
+        
         <form id="contact-form" class="contact-form" action="https://formsubmit.co/e.c.cullell@gmail.com" method="POST" novalidate>
           <h2 class="form-title">Get in touch</h2>
         
@@ -514,6 +534,31 @@ END:VCARD`;
                 console.log('Link clicked:', this.href);
             });
         });
+    </script>
+    <script>
+      // Toggle contact form inside the card
+      (function () {
+        const toggleBtn = document.getElementById('showForm');
+        const form = document.getElementById('contact-form');
+    
+        if (!toggleBtn || !form) return;
+    
+        // a11y: reflect state on the button
+        toggleBtn.setAttribute('aria-expanded', 'false');
+    
+        toggleBtn.addEventListener('click', function (e) {
+          e.preventDefault();
+          const isOpen = form.classList.toggle('show');
+          toggleBtn.setAttribute('aria-expanded', String(isOpen));
+    
+          if (isOpen) {
+            // focus first input & scroll into view
+            const first = form.querySelector('input, textarea, select');
+            first && first.focus({ preventScroll: true });
+            form.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }
+        });
+      })();
     </script>
     <script>
       (function () {
