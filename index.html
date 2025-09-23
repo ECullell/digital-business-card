@@ -417,11 +417,11 @@
         <div class="usdm-accent">USDM Life Sciences</div>
     </div>
 
-    <form action="https://formsubmit.co/e.c.cullell@gmail.com" method="POST">
+    <form id="contact-form" class="contact-form" action="https://formsubmit.co/e.c.cullell@gmail.com" method="POST" novalidate>
       <h2 class="form-title">Get in touch</h2>
     
       <!-- Honeypot (spam trap) -->
-      <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+      <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
     
       <div class="form-row">
         <label for="name">Name *</label>
@@ -458,13 +458,16 @@
       <!-- Optional metadata -->
       <input type="hidden" name="_subject" value="New inquiry from your digital business card" />
       <input type="hidden" name="_captcha" value="true" />
+      <input type="hidden" name="_next" value="https://YOURDOMAIN/thank-you.html" />
+      <!-- Nice email layout -->
+      <input type="hidden" name="_template" value="table" />
     
       <button class="btn btn-primary" type="submit">Send message</button>
     
       <p id="form-status" class="form-status" role="status" aria-live="polite"></p>
     
       <small class="privacy-note">
-        By submitting, you agree to the processing of your personal data for the purpose of responding to your enquiry. 
+        By submitting, you agree to the processing of your personal data for the purpose of responding to your enquiry.
         See the <a href="/privacy.html" target="_blank" rel="noopener">Privacy Notice</a> for details.
       </small>
     </form>
@@ -481,7 +484,7 @@ X-ABShowAs:PERSON
 N:Cullell;Enric;;;
 FN:Enric Cullell
 ORG:USDM Life Sciences
-TITLE:Validation Lead
+TITLE:Quality AI Lead
 TEL;TYPE=CELL,VOICE:+1-805-204-4163
 EMAIL;TYPE=INTERNET,PREF:ecullell@usdm.com
 URL;TYPE=WORK:https://usdm.com/
