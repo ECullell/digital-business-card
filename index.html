@@ -273,6 +273,54 @@
             color: #1e3a5f;
             font-weight: bold;
         }
+        .contact-form { 
+          margin-top: 28px; 
+          text-align: left; 
+        }
+        .form-title { 
+          color:#1e3a5f; 
+          font-size:20px; 
+          font-weight:700; 
+          margin-bottom:14px; 
+          text-align:center; 
+        }
+        .form-row { 
+          display:flex; 
+          flex-direction:column; 
+          margin-bottom:12px; 
+        }
+        .form-row label { 
+          font-size:13px; 
+          color:#375a7a; 
+          margin-bottom:6px; 
+        }
+        .form-row input, .form-row textarea {
+          border:1px solid #e2e8f0;
+          border-radius:10px;
+          padding:12px;
+          font-size:14px;
+          outline:none;
+        }
+        .form-row input:focus, .form-row textarea:focus { 
+          border-color:#4a90a4; 
+          box-shadow:0 0 0 3px rgba(74,144,164,.15);
+        }
+        .form-row.checkbox { 
+          flex-direction:row; 
+          align-items:flex-start; 
+          gap:8px; 
+        }
+        .form-status { 
+          margin-top:10px; 
+          font-size:14px; 
+        }
+        .form-status.ok { color:#0a7f3f; }
+        .form-status.err { color:#b00020; }
+        .privacy-note { 
+          display:block; 
+          margin-top:8px; 
+          color:#5a6c7d; 
+        }
     </style>
 </head>
 <body>
@@ -369,6 +417,58 @@
         <div class="usdm-accent">USDM Life Sciences</div>
     </div>
 
+    <form id="contact-form" class="contact-form" action="https://formspree.io/f/xldpebzz" method="POST" novalidate>
+      <h2 class="form-title">Get in touch</h2>
+    
+      <!-- Honeypot (spam trap) -->
+      <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+    
+      <div class="form-row">
+        <label for="name">Name *</label>
+        <input id="name" name="name" type="text" required autocomplete="name" />
+      </div>
+    
+      <div class="form-row">
+        <label for="email">Email *</label>
+        <input id="email" name="email" type="email" required autocomplete="email" />
+      </div>
+    
+      <div class="form-row">
+        <label for="phone">Phone</label>
+        <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" />
+      </div>
+    
+      <div class="form-row">
+        <label for="company">Company</label>
+        <input id="company" name="company" type="text" autocomplete="organization" />
+      </div>
+    
+      <div class="form-row">
+        <label for="question">Question *</label>
+        <textarea id="question" name="question" rows="4" required></textarea>
+      </div>
+    
+      <div class="form-row checkbox">
+        <label>
+          <input type="checkbox" id="consent" name="consent" required />
+          I consent to you storing and using my information to contact me about my enquiry.
+        </label>
+      </div>
+    
+      <!-- Optional metadata -->
+      <input type="hidden" name="_subject" value="New inquiry from your digital business card" />
+      <input type="hidden" name="_captcha" value="true" />
+    
+      <button class="btn btn-primary" type="submit">Send message</button>
+    
+      <p id="form-status" class="form-status" role="status" aria-live="polite"></p>
+    
+      <small class="privacy-note">
+        By submitting, you agree to the processing of your personal data for the purpose of responding to your enquiry. 
+        See the <a href="/privacy.html" target="_blank" rel="noopener">Privacy Notice</a> for details.
+      </small>
+    </form>
+
     <script>
         // Add to contacts functionality
         document.getElementById('addContact').addEventListener('click', function(e) {
@@ -410,6 +510,53 @@ END:VCARD`;
                 console.log('Link clicked:', this.href);
             });
         });
+    </script>
+    <script>
+      (function () {
+        const form = document.getElementById('contact-form');
+        if (!form) return;
+        const status = document.getElementById('form-status');
+    
+        function setStatus(msg, ok=true) {
+          status.textContent = msg;
+          status.className = 'form-status ' + (ok ? 'ok' : 'err');
+        }
+    
+        form.addEventListener('submit', async (e) => {
+          e.preventDefault();
+    
+          // Basic front-end validation
+          const required = ['name','email','question','consent'];
+          for (const id of required) {
+            const el = document.getElementById(id);
+            if (!el || (el.type === 'checkbox' ? !el.checked : !el.value.trim())) {
+              setStatus('Please complete all required fields (*).', false);
+              el && el.focus();
+              return;
+            }
+          }
+    
+          const formData = new FormData(form);
+    
+          try {
+            const res = await fetch(form.action, {
+              method: 'POST',
+              body: formData,
+              headers: { 'Accept': 'application/json' }
+            });
+    
+            if (res.ok) {
+              setStatus('Thanks! Your message has been sent.');
+              form.reset();
+            } else {
+              const data = await res.json().catch(() => ({}));
+              setStatus(data.error || 'Oops—something went wrong. Please try again.', false);
+            }
+          } catch (err) {
+            setStatus('Network error. Please try again.', false);
+          }
+        });
+      })();
     </script>
 </body>
 </html>
