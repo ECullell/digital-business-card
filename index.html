@@ -334,6 +334,28 @@
         @media (max-width: 480px) {
           #contact-form .btn { width: 100%; }
         }
+        /* keep the form constrained inside the card */
+        .contact-form { 
+          margin-top: 28px; 
+          text-align: left; 
+          max-width: 100%;
+        }
+        
+        /* make fields never overflow the card */
+        .form-row input,
+        .form-row textarea {
+          width: 100%;
+          max-width: 100%;
+          display: block;
+        }
+        /* fallback: stack children vertically */
+        body {
+          display: flex;
+          flex-direction: column;   /* add this */
+          gap: 24px;
+          justify-content: center;
+          align-items: center;
+        }
     </style>
 </head>
 <body>
@@ -433,9 +455,7 @@
             </a>
         </div>
 
-        <div class="usdm-accent">USDM Life Sciences</div>
-        
-        <form id="contact-form" class="contact-form" action="https://formsubmit.co/e.c.cullell@gmail.com" method="POST" novalidate>
+        <form id="contact-form" class="contact-form" action="https://formsubmit.co/8a1fed66d03b5108f22ce8a0ff18fdd4" method="POST" novalidate>
           <h2 class="form-title">Get in touch</h2>
         
           <!-- Honeypot (spam trap) -->
@@ -489,7 +509,7 @@
             See the <a href="/privacy.html" target="_blank" rel="noopener">Privacy Notice</a> for details.
           </small>
         </form>
-
+        <div class="usdm-accent">USDM Life Sciences</div>
     </div>
 
     
