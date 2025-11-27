@@ -435,15 +435,14 @@
             const vCard = `BEGIN:VCARD
 VERSION:3.0
 X-ABShowAs:PERSON
-N:Cullell;Enric;;;
+N:Mirón;Elena;;;
 FN:Elena Mirón
 ORG:USDM Life Sciences
-TITLE:AI Quality Lead
+TITLE:Program Manager
 TEL;TYPE=CELL,VOICE:+4969506027946
-EMAIL;TYPE=INTERNET,PREF:ecullell@usdm.com
+EMAIL;TYPE=INTERNET,PREF:emrion@usdm.com
 URL;TYPE=WORK:https://usdm.com/
-URL;TYPE=HOME:https://www.linkedin.com/in/enric-cullell
-NOTE:GxP Compliance, Digital Quality, and Risk Management expert for life sciences companies. Specializes in pharmaceutical, biotech, and medical device validation.
+URL;TYPE=HOME:https://www.linkedin.com/in/elena-mir%C3%B3n/
 END:VCARD`;
 
             // Create and download vCard file
@@ -451,7 +450,7 @@ END:VCARD`;
             const url = window.URL.createObjectURL(blob);
             const link = document.createElement('a');
             link.href = url;
-            link.download = 'enric-cullell-usdm.vcf';
+            link.download = 'elena-mirón-usdm.vcf';
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
