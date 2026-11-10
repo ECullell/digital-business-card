@@ -178,10 +178,11 @@
             display: flex;
             gap: 15px;
             justify-content: center;
+            flex-wrap: wrap;
         }
 
         .btn {
-            padding: 15px 30px;
+            padding: 15px 18px;
             border: none;
             border-radius: 30px;
             font-size: 15px;
@@ -192,6 +193,7 @@
             display: inline-flex;
             align-items: center;
             gap: 10px;
+            white-space: nowrap;
         }
 
         .btn-primary {
@@ -272,81 +274,6 @@
             color: #1e3a5f;
             font-weight: bold;
         }
-        .contact-form {
-          margin-top: 28px;
-          text-align: left;
-        }
-        .form-title {
-          color:#1e3a5f;
-          font-size:20px;
-          font-weight:700;
-          margin-bottom:14px;
-          text-align:center;
-        }
-        .form-row {
-          display:flex;
-          flex-direction:column;
-          margin-bottom:12px;
-        }
-        .form-row label {
-          font-size:13px;
-          color:#375a7a;
-          margin-bottom:6px;
-        }
-        .form-row input, .form-row textarea {
-          border:1px solid #e2e8f0;
-          border-radius:10px;
-          padding:12px;
-          font-size:14px;
-          outline:none;
-        }
-        .form-row input:focus, .form-row textarea:focus {
-          border-color:#4a90a4;
-          box-shadow:0 0 0 3px rgba(74,144,164,.15);
-        }
-        .form-row.checkbox {
-          flex-direction:row;
-          align-items:flex-start;
-          gap:8px;
-        }
-        .form-status {
-          margin-top:10px;
-          font-size:14px;
-        }
-        .form-status.ok { color:#0a7f3f; }
-        .form-status.err { color:#b00020; }
-        .privacy-note {
-          display:block;
-          margin-top:8px;
-          color:#5a6c7d;
-        }
-        /* Toggle form inside the card */
-        #contact-form {
-          display: none;
-        }
-        #contact-form.show {
-          display: block;
-          animation: fadeIn 0.25s ease-in;
-        }
-
-        /* make the submit button full-width on small screens */
-        @media (max-width: 480px) {
-          #contact-form .btn { width: 100%; }
-        }
-        /* keep the form constrained inside the card */
-        .contact-form {
-          margin-top: 28px;
-          text-align: left;
-          max-width: 100%;
-        }
-
-        /* make fields never overflow the card */
-        .form-row input,
-        .form-row textarea {
-          width: 100%;
-          max-width: 100%;
-          display: block;
-        }
         /* fallback: stack children vertically */
         body {
           display: flex;
@@ -401,19 +328,13 @@
 
         <!-- Action Buttons -->
         <div class="actions">
-            <a href="#" class="btn btn-primary" id="showForm">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                  <path d="M12,2A10,10 0 1,0 22,12A10,10 0 0,0 12,2M11,17L6,12L7.41,10.59L11,14.17L16.59,8.58L18,10L11,17Z"/>
-                </svg>
-                Contact Me
-            </a>
             <a href="#" class="btn btn-primary" id="addContact">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z"/>
                 </svg>
                 Add To Contacts
             </a>
-            <a href="tel:+4969506027946" class="btn btn-secondary">
+            <a href="tel:+4969506027942" class="btn btn-secondary">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M6.62,10.79C8.06,13.62 10.38,15.94 13.21,17.38L15.41,15.18C15.69,14.9 16.08,14.82 16.43,14.93C17.55,15.3 18.75,15.5 20,15.5A1,1 0 0,1 21,16.5V20A1,1 0 0,1 20,21A17,17 0 0,1 3,4A1,1 0 0,1 4,3H7.5A1,1 0 0,1 8.5,4C8.5,5.25 8.7,6.45 9.07,7.57C9.18,7.92 9.1,8.31 8.82,8.59L6.62,10.79Z"/>
                 </svg>
@@ -439,8 +360,8 @@ N:Mirón;Elena;;;
 FN:Elena Mirón
 ORG:USDM Life Sciences
 TITLE:VP of Delivery\, Strategy & Solutions — EU Region
-TEL;TYPE=CELL,VOICE:+4969506027946
-EMAIL;TYPE=INTERNET,PREF:emrion@usdm.com
+TEL;TYPE=CELL,VOICE:+4969506027942
+EMAIL;TYPE=INTERNET,PREF:emiron@usdm.com
 URL;TYPE=WORK:https://usdm.com/
 URL;TYPE=HOME:https://www.linkedin.com/in/elena-mir%C3%B3n/
 END:VCARD`;
@@ -466,97 +387,6 @@ END:VCARD`;
                 console.log('Link clicked:', this.href);
             });
         });
-    </script>
-    <script>
-      // Toggle contact form inside the card
-      (function () {
-        const toggleBtn = document.getElementById('showForm');
-        const form = document.getElementById('contact-form');
-
-        if (!toggleBtn || !form) return;
-
-        // a11y: reflect state on the button
-        toggleBtn.setAttribute('aria-expanded', 'false');
-
-        toggleBtn.addEventListener('click', function (e) {
-          e.preventDefault();
-          const isOpen = form.classList.toggle('show');
-          toggleBtn.setAttribute('aria-expanded', String(isOpen));
-
-          if (isOpen) {
-            // focus first input & scroll into view
-            const first = form.querySelector('input, textarea, select');
-            first && first.focus({ preventScroll: true });
-            form.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-          }
-        });
-      })();
-    </script>
-    <script>
-      (function () {
-        const form = document.getElementById('contact-form');
-        if (!form) return;
-        const status = document.getElementById('form-status');
-
-        function setStatus(msg, ok=true) {
-          status.textContent = msg;
-          status.className = 'form-status ' + (ok ? 'ok' : 'err');
-        }
-
-        form.addEventListener('submit', async (e) => {
-          e.preventDefault();
-
-          // Basic front-end validation
-          const required = ['name','email','question','consent'];
-          for (const id of required) {
-            const el = document.getElementById(id);
-            if (!el || (el.type === 'checkbox' ? !el.checked : !el.value.trim())) {
-              setStatus('Please complete all required fields (*).', false);
-              el && el.focus();
-              return;
-            }
-          }
-
-          const formData = new FormData(form);
-
-          try {
-            const payload = Object.fromEntries(formData.entries());
-            payload.consent = document.getElementById('consent').checked;
-            payload.cardId = payload.cardId || 'enric-digital-card';
-            payload._honey = payload._honey || '';
-            const res = await fetch(form.action, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-              },
-              body: JSON.stringify(payload)
-            });
-
-            if (res.ok) {
-              setStatus('Thanks! Your message has been sent.');
-              // If a _next URL is defined, navigate there
-              const next = form.querySelector('input[name="_next"]');
-              if (next && next.value) {
-                window.location.href = next.value;
-                return;
-              }
-              form.reset();
-            } else {
-              let message = 'Oops—something went wrong. Please try again.';
-              try {
-                const data = await res.json();
-                if (data && (data.error || data.message)) {
-                  message = data.error || data.message;
-                }
-              } catch (_) {}
-              setStatus(message, false);
-            }
-          } catch (err) {
-            setStatus('Network error. Please try again.', false);
-          }
-        });
-      })();
     </script>
 </body>
 </html>
